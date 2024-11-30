@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Resumen Financiero</h1>
+<a href="{% url 'solicitudes_admin' %}">Volver a Solicitudes</a>
+
+<h2>Por Día</h2>
+<p>Ingresos: {{ ingresos_dia }}</p>
+<p>Egresos: {{ egresos_dia }}</p>
+<p>Total en caja: {{ caja_dia }}</p>
+
+<h2>Por Semana</h2>
+<p>Ingresos: {{ ingresos_semana }}</p>
+<p>Egresos: {{ egresos_semana }}</p>
+<p>Total en caja: {{ caja_semana }}</p>
+
+<h2>Por Mes</h2>
+<p>Ingresos: {{ ingresos_mes }}</p>
+<p>Egresos: {{ egresos_mes }}</p>
+<p>Total en caja: {{ caja_mes }}</p>
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+<div class="btn-container-solicitudes mb-4">  
+    <a href="{% url 'registrar_trabajador' %}" class="btn btn-custom mb-3">Registrar</a>
+    <a href="{% url 'resumen_contable' %}" class="btn btn-custom mb-3">Pagos</a>
+    <a href="{% url 'servicios_por_intervalo' %}" class="btn btn-custom mb-3">Diario</a>
+    <a href="{% url 'historial_servicios' %}" class="btn btn-custom mb-3">Historial</a>
+    <button type="button" class="btn btn-custom mb-3" data-toggle="modal" data-target="#accionesTrabajadorModal"> Acciones Trabajador </button>
+    <button type="button" class="btn btn-custom mb-3" data-toggle="modal" data-target="#crearSolicitudModal">Crear Solicitud </button>
+</div>
+
+    <div class="modal fade" id="accionesTrabajadorModal" tabindex="-1" role="dialog" aria-labelledby="accionesTrabajadorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accionesTrabajadorModalLabel">Acciones de Trabajadores</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for trabajador in trabajadores %}
+                                <tr>
+                                    <td>{{ trabajador.nombre }}</td>
+                                    <td>
+                                        {% if trabajador.activo %}
+                                            <span class="badge badge-success">Habilitado</span>
+                                        {% else %}
+                                            <span class="badge badge-secondary">Inhabilitado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if trabajador.activo %}
+                                            <a href="{% url 'toggle_trabajador_activo' trabajador.id %}" class="btn btn-warning btn-sm">Inhabilitar</a>
+                                        {% else %}
+                                            <a href="{% url 'toggle_trabajador_activo' trabajador.id %}" class="btn btn-success btn-sm">Habilitar</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+ 
+    <div class="table-responsive solicitud-table-container">
+        <table id="solicitudes-table" class="solicitudes-table display">
+            <div class="btn-container-solicitudes mb-4">
+                <div class="container-filtro-solicitudes">
+                    <label for="start-date">Fecha:</label>
+                    <input type="date" id="start-date" />
+                </div>   
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Teléfono</th>
+                    <th>Servicio</th>
+                    <th>Valor</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                    <th>Trabajador Asignado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr>
+                    <td>{{ solicitud.cliente }}</td>
+                    <td>{{ solicitud.telefono }}</td>
+                    <td>{{ solicitud.servicio.nombre }}</td>
+                    <td>{{ 50000 }}</td>
+                    <td>{{ solicitud.fecha }}</td>
+                    <td>{{ solicitud.hora }}</td>
+                    <td>{{ solicitud.estado }}</td>
+                    <td>
+                        {% if solicitud.trabajador %}
+                            {{ solicitud.trabajador.nombre }}
+                        {% else %}
+                            No asignado
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not solicitud.trabajador %}
+                            <form method="POST" action="{% url 'asignar_trabajador' solicitud.id %}">
+                                {% csrf_token %}
+                                <select name="trabajador" class="form-control" required>
+                                    <option value=""></option>
+                                    {% for trabajador in trabajadores_habilitados %}
+                                        <option value="{{ trabajador.id }}">{{ trabajador.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-primary mt-2">Asignar</button>
+                            </form>
+                        {% endif %}
+                        <a class="fa-solid fa-cart-plus icon-custom" href="#" data-toggle="modal" data-target="#addMontoModal" data-id="{{ solicitud.id }}" data-cliente="{{ solicitud.cliente }}"></a>
+                        <a class="fa-solid fa-cash-register icon-custom" href="#" data-toggle="modal" data-target="#modPagooModal" data-id="{{ solicitud.id }}" data-cliente="{{ solicitud.pago }}" data-nombre="{{ solicitud.cliente }}"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+<div class="modal fade" id="addMontoModal" tabindex="-1" role="dialog" aria-labelledby="addMontoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMontoModalLabel">Añadir Monto Adicional</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="addMontoForm" method="POST" action="{% url 'add_monto_adicional' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="solicitudId" name="solicitud_id">
+                    <p>Cliente: <span id="clienteNombre"></span></p>
+                    <div class="form-group">
+                        <label for="montoAdicional">Monto Adicional</label>
+                        <input type="number" class="form-control" id="montoAdicional" name="monto_adicional" min="1" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modPagooModal" tabindex="-1" role="dialog" aria-labelledby="modPagooModallLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modPagooModallLabel">Cambiar Modo de Pago</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="changePagoForm" method="POST" action="{% url 'cambiar_modo_pago' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="solicitudId" name="solicitud_id">
+                    <p>Cliente: <span id="clienteNombre"></span></p>
+                    <p>Método actual: <span id="metodoActual"></span></p>
+                    <p>¿Estás seguro de que deseas cambiar el método de pago?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Si </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="crearSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="crearSolicitudModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearSolicitudModalLabel">Crear Solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'crear_solicitud_admin' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input type="time" class="form-control" id="hora" name="hora" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pago">Pago</label>
+                        <input type="text" class="form-control" id="pago" name="pago" value="efectivo">
+                    </div>
+                    <div class="form-group">
+                        <label for="servicio">Servicio</label>
+                        <select class="form-control" id="servicio" name="servicio" required>
+                            <option value="">Selecciona un servicio</option>
+                            {% for servicio in servicios %}
+                            <option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
+                            {% empty %}
+                            <option value="">No hay servicios disponibles</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="trabajador">Trabajador</label>
+                        <select class="form-control" id="trabajador" name="trabajador">
+                            <option value="">Ninguno</option>
+                            {% for trabajador in trabajadores %}
+                            <option value="{{ trabajador.id }}">{{ trabajador.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    $('#addMontoModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var solicitudId = button.data('id');
+        var clienteNombre = button.data('cliente');
+
+        var modal = $(this);
+        modal.find('#solicitudId').val(solicitudId);
+        modal.find('#clienteNombre').text(clienteNombre);
+    });
+
+    $(document).on('click', '.fa-cash-register', function() {
+        var solicitudId = $(this).data('id'); 
+        var metodoPago = $(this).data('cliente'); 
+        var clienteNombre = $(this).data('nombre'); 
+
+        
+        $('#modPagooModal #solicitudId').val(solicitudId); 
+        $('#modPagooModal #clienteNombre').text(clienteNombre); 
+        $('#modPagooModal #metodoActual').text(metodoPago); 
+    });
+
+    $(document).ready(function() {
+    var table = $('#solicitudes-table').DataTable();
+
+    function formatDate(dateStr) {
+        const months = { 
+            'Jan.': 1, 'Feb.': 2, 'Mar.': 3, 'Apr.': 4, 'May': 5, 'Jun.': 6, 
+            'Jul.': 7, 'Aug.': 8, 'Sep.': 9, 'Oct.': 10, 'Nov.': 11, 'Dec.': 12 
+        };
+        const parts = dateStr.split(' ');
+        const month = months[parts[0]];
+        const day = parts[1].replace(',', '');  // Eliminar la coma
+        const year = parts[2];
+        return new Date(year, month - 1, day);  // Retorna una fecha en formato Date
+    }
+
+    // Filtrar las filas cuando el usuario cambia el rango de fechas
+    $('#start-date, #end-date').change(function() {
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+
+        // Si ambas fechas son válidas, aplicamos el filtro
+        table.rows().every(function() {
+            var dateText = $(this.node()).find('td').eq(4).text();  // Columna de fecha (índice 4)
+            var rowDate = formatDate(dateText);
+
+            // Convertir las fechas a objetos Date para la comparación
+            var isDateValid = true;
+            if (startDate) {
+                var start = new Date(startDate);
+                if (rowDate < start) isDateValid = false;
+            }
+            if (endDate && isDateValid) {
+                var end = new Date(endDate);
+                if (rowDate > end) isDateValid = false;
+            }
+
+            // Mostrar u ocultar fila dependiendo del filtro
+            if (isDateValid) {
+                $(this.node()).show();
+            } else {
+                $(this.node()).hide();
+            }
+        });
+    });
+});
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

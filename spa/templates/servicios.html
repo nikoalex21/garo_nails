@@ -1,0 +1,23 @@
+<!-- templates/trabajador/servicios.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Asignados</title>
+</head>
+<body>
+    <h1>Servicios Asignados para {{ request.user.username }}</h1>
+
+    {% if servicios %}
+        <ul>
+        {% for servicio in servicios %}
+            <li>{{ servicio.nombre }} - Fecha: {{ servicio.fecha }} - Hora: {{ servicio.hora }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes servicios asignados en este momento.</p>
+    {% endif %}
+</body>
+</html>

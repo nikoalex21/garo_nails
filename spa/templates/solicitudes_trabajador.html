@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<h1>Bienvenida {{trabajadores.nombre}}</h1>
+
+<div class="table-responsive">
+    <table id="solicitudes-table" class="table display">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Servicio</th>
+                <th>Estado</th>
+                <th>Acciones</th>  
+            </tr>
+        </thead>
+        <tbody>
+            {% for solicitud in solicitudes %}
+            <tr>
+                <td>{{ solicitud.cliente }}</td>
+                <td>{{ solicitud.telefono }}</td>
+                <td>{{ solicitud.fecha }}</td>
+                <td>{{ solicitud.hora }}</td>
+                <td>{{ solicitud.servicio.nombre }}</td>
+                <td>{{ solicitud.estado }}</td>
+                <td>
+                    <form method="POST" action="{% url 'aceptar_solicitud' solicitud.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Aceptar</button>
+                    </form>
+                    <form method="POST" action="{% url 'rechazar_solicitud' solicitud.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Rechazar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No tienes solicitudes asignadas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#solicitudes-table').DataTable();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+{% endblock %}

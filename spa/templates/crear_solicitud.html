@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container solicitud-container mt-5">
+    <h2>Solicitar Servicio</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cliente">Nombre:</label>
+            <input type="text" class="form-control" id="cliente" name="cliente" required>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="hora">Hora:</label>
+            <select id="hora" name="hora" class="form-control" required>
+                <option value="">Seleccione un horario</option>
+                {% for horario in horarios_disponibles %}
+                    <option value="{{ horario }}">{{ horario }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <input type="hidden" name="servicios" value="{{ servicios|join:',' }}">
+        <button type="submit" class="btn btn-solicitud">Enviar Solicitud</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Establecer la fecha mínima para el campo de fecha
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("fecha").setAttribute("min", today);
+
+    // Deshabilitar domingos
+    function disableSundays(date) {
+        var day = new Date(date).getUTCDay();
+        return day !== 0;
+    }
+
+    document.getElementById("fecha").addEventListener('input', function() {
+        var inputDate = new Date(this.value);
+        if (!disableSundays(inputDate)) {
+            alert("Los domingos no están disponibles. Por favor, selecciona otra fecha.");
+            this.value = "";
+        }
+    });
+
+    $('#fecha').on('change', function() {
+        var fecha = $(this).val();
+        var servicios = [];
+
+        $("input[name='servicios']:checked").each(function() {
+            servicios.push($(this).val());
+        });
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var servicioIds = urlParams.get('servicios');
+
+        if (servicioIds) {
+            servicios = servicioIds.split(',');
+        }
+        console.log("Servicios seleccionados:", servicios);
+
+        $.ajax({
+            url: '{% url "obtener_horarios" %}',
+            data: {
+                'fecha': fecha,
+                'servicios': servicios
+            },
+            success: function(data) {
+                $('#hora').empty();
+                $('#hora').append('<option value="">Seleccione un horario</option>');
+
+                $.each(data.horarios, function(index, horario) {
+                    $('#hora').append('<option value="' + horario + '">' + horario + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

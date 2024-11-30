@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'solicitudes_admin' %}" class="btn btn-custom-back-contable"> Volver a Solicitudes</a>
+<div class="container contable-container">
+    <h1 class="contable-title">Pagos</h1>
+    <div class="table-responsive contable-table-container">
+        <table class="table table-sm table-bordered contable-table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Trabajador</th>
+                    <th>Total</th>
+                    <th>Adelantos</th>
+                    <th>Pagar</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trabajador in data %}
+                    <tr>
+                        <td>{{ trabajador.trabajador.nombre }}</td>
+                        <td>{{ trabajador.total }}</td>
+                        <td>{{ trabajador.adelantos }}</td>
+                        <td>{{ trabajador.total_pago }}</td>
+                        <td>
+                            <a href="{% url 'pagar_trabajador' trabajador.trabajador.id %}" class="btn btn-custom-contable btn-sm mb-1">Pagar</a><br>
+                            <button  
+                                type="button" 
+                                class="btn btn-custom-contable-warning btn-sm" 
+                                data-toggle="modal" 
+                                data-target="#adelantoModal" 
+                                data-id="{{ trabajador.trabajador.id }}" 
+                                data-nombre="{{ trabajador.trabajador.nombre }}"
+                                data-loquecorresponde="{{ trabajador.total_pago }}">
+                                Adelantar
+                            </button> 
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal para Pagar Adelanto -->
+<div class="modal fade" id="adelantoModal" tabindex="-1" role="dialog" aria-labelledby="adelantoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content contable-modal-content">
+            <div class="modal-header contable-modal-header">
+                <h5 class="modal-title contable-modal-title" id="adelantoModalLabel">Pagar Adelanto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body contable-modal-body">
+                <form id="adelantoForm" method="POST" action="{% url 'adelanto_trabajador' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="trabajador_id" id="trabajadorId" value="">
+                    <div class="form-group">
+                        <label for="trabajadorNombre">Trabajador</label>
+                        <input type="text" id="trabajadorNombre" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="montoAdelanto">Monto a Adelantar</label>
+                        <input type="number" id="montoAdelanto" name="monto_adelanto" class="form-control" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom-contable-success">Registrar Adelanto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $('#adelantoModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que activó el modal
+        var trabajadorId = button.data('id'); // Extraer información de atributos data-*
+        var trabajadorNombre = button.data('nombre');
+        var loQueCorresponde = button.data('loquecorresponde'); // Ahora este es total_pago
+
+        var modal = $(this);
+        modal.find('#trabajadorId').val(trabajadorId);
+        modal.find('#trabajadorNombre').val(trabajadorNombre);
+        modal.find('#montoAdelanto').attr('max', loQueCorresponde); // Limitar el adelanto al total que le corresponde
+    });
+</script>
+
+{% endblock %}

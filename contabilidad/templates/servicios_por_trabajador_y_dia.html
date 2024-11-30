@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Servicios Realizados por Trabajador y Día</h1>
+    <a href="{% url 'solicitudes_admin' %}">Volver a Solicitudes</a>
+
+
+    <!-- Formulario de selección -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="trabajador">Trabajador:</label>
+                <select id="trabajador" name="trabajador" class="form-control">
+                    <option value="">-- Seleccionar --</option>
+                    {% for trabajador in trabajadores %}
+                        <option value="{{ trabajador.id }}" {% if trabajador_id == trabajador.id %}selected{% endif %}>
+                            {{ trabajador.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" class="form-control" value="{{ fecha }}">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Resultados -->
+    {% if servicios_realizados %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Resultados</h5>
+                <p><strong>Total Generado:</strong> ${{ total_generado }}</p>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Precio Base</th>
+                    <th>Hora</th>
+                    <th>Adicional</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servicio in servicios_realizados %}
+                    <tr>
+                        <td>{{ servicio.servicio }}</td>
+                        <td>${{ servicio.precio }}</td>
+                        <td>{{ servicio.hora }}</td>
+                        <td>${{ servicio.precio_total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {% if trabajador_id and fecha %}
+            <div class="alert alert-warning">No se encontraron servicios para este trabajador en la fecha seleccionada.</div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

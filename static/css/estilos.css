@@ -1,0 +1,668 @@
+/* Estilo para el logo */
+.logo {
+    width: 150px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Fondo y color general del cuerpo */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to bottom, #eae2b7);
+    color: #333;
+}
+
+/* Contenedor principal */
+.container {
+    margin-top: 3rem;
+}
+
+/* Estilo para los encabezados */
+h1 {
+    text-align: center;
+    font-weight: 700;
+    color: #007bff; /* Mantiene el azul vibrante para los títulos */
+    margin-bottom: 2rem;
+}
+
+/* Estilo para las tarjetas */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #FFFBFA; /* Fondo claro para las tarjetas */
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el contenido de las tarjetas */
+.card-body {
+    text-align: center;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #343a40;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+/* Estilo para las etiquetas de las opciones */
+.form-check-label {
+    color: #007bff;
+}
+
+/* Botón primario */
+.btn-primary {
+    background: #007bff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.6rem 2rem;
+    transition: background 0.3s ease;
+}
+
+
+
+
+
+/* Estilo para la página del historial de servicios */
+.historial-body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #fef9ff;
+    color: #333;
+}
+
+.historial-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background-color: #fff0f3;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.historial-title {
+    text-align: center;
+    font-weight: 700;
+    color: #0d1321;
+    margin-bottom: 2rem;
+}
+
+.historial-form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+button.historial-btn-primary {
+    background-color: #ffc2d1;
+    border: none;
+    padding: 0.6rem 2rem;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+button.historial-btn-primary:hover {
+    background-color: #ffc2d1;
+}
+
+.historial-table-responsive {
+    margin-top: 2rem;
+    overflow-x: auto;  /* Añadido para la responsividad */
+}
+
+.historial-table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;  /* Asegurarse de que la tabla ocupe el ancho completo del contenedor */
+}
+
+.historial-table thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.historial-table thead th {
+    font-size: 14px;
+}
+
+.historial-table tbody td {
+    font-size: 13px;
+    color: #555;
+}
+
+.historial-fw-bold {
+    font-weight: 700;
+    color: #0d1321;
+}
+
+.historial-text-success {
+    color: #8b8c89 !important;
+}
+
+.historial-text-info {
+    color: #17a2b8 !important;
+}
+
+.historial-list {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.historial-list li {
+    background-color: #fff0f3;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.historial-list li strong {
+    font-weight: 600;
+    color: #0d1321;
+}
+
+.historial-back-link {
+    text-decoration: none;
+    color: #0d1321;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.historial-back-link:hover {
+    text-decoration: underline;
+    color: #0d1321;
+}
+
+
+/*template de solicitudes admin*/
+
+.container-filtro-solicitudes { background-color: #fff5e7; 
+    padding: 1rem; border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    display: flex; gap: 1rem; 
+    align-items: center;
+ }
+
+.btn-custom {
+    background-color: #ffc2d1; /* Verde personalizado */
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    color: rgb(10, 10, 10);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-custom:hover {
+    background-color: #ffc2d1; /* Verde más oscuro para el hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de botones */
+.btn-container-solicitudes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: #f8edeb; /* Fondo claro */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+
+/* Contenedor de la tabla de solicitudes */
+.solicitud-table-container {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f1f1f1; /* Fondo claro */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Tabla de solicitudes */
+.solicitudes-table {
+    width: 100%; /* Asegura que la tabla ocupe el ancho completo del contenedor */
+    border-collapse: collapse; /* Elimina espacios entre celdas */
+}
+
+/* Encabezado de la tabla */
+.solicitudes-table thead {
+    background-color: #fae1dd; /* Fondo oscuro para el encabezado */
+    color: #030303; /* Texto blanco */
+}
+
+/* Celdas del encabezado */
+.solicitudes-table thead th {
+    font-size: 14px;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+/* Celdas del cuerpo de la tabla */
+.solicitudes-table tbody td {
+    font-size: 13px;
+    padding: 0.75rem;
+    color: #030303;
+    border-bottom: 1px solid #ddd; /* Línea divisoria */
+}
+
+/* Filas alternas */
+.solicitudes-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo claro para filas alternas */
+}
+
+/* Filas al pasar el cursor */
+.solicitudes-table tbody tr:hover {
+    background-color: #e9ecef; /* Fondo más oscuro al pasar el cursor */
+}
+
+/* Formularios dentro de la tabla */
+.solicitudes-table form {
+    display: inline-block;
+}
+
+.solicitudes-table .btn-primary {
+    background-color: #68a5dd; /* Color personalizado para el botón */
+    border: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+
+.solicitudes-table .btn-primary:hover {
+    background-color: #000000; /* Fondo más oscuro para el hover */
+}
+/* Estilo para los iconos personalizados */
+.icon-custom {
+    color: #000000; /* Azul vibrante */
+    font-size: 1.5rem; /* Tamaño de fuente ajustado */
+    margin-right: 0.5rem; /* Espacio entre iconos */
+    transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+.icon-custom:hover {
+    color: #000000;
+}
+
+ /*template registrar trabajdor */
+
+/* Contenedor principal */
+.registrar-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(to right, #f8eee0, #ffece6);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333; /* Color del texto */
+}
+
+/* Encabezado de la página */
+.registrar-container h2 {
+    text-align: center;
+    font-weight: 700;
+    color: #050505;
+    margin-bottom: 2rem;
+}
+
+/* Botón para volver */
+button.btn-custom-back {
+    display: block;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-custom-back:hover {
+    background-color: #a7a7a7;
+}
+
+/* Formularios */
+.form-group label {
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    border-radius: 5px;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Botón de registrar */
+button.btn-custom-registrar {
+    background-color: #ffc2d1;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    color: rgb(7, 7, 7);
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 1rem auto;
+}
+
+button.btn-custom-registrar:hover {
+    background-color: #e47c96;
+}
+
+
+
+/*template resumen contable*/
+/* Contenedor principal */
+.contable-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background-color: #ffeeee;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado de la página */
+.contable-title {
+    text-align: center;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+/* Botón para volver */
+.btn-custom-back-contable {
+    display: block;
+    margin-bottom: 1rem;
+    background-color: #ffeeee;
+    color: rgb(0, 0, 0);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-back-contable:hover {
+    background-color: #c26d6d;
+}
+
+/* Contenedor de la tabla de pagos */
+.contable-table-container {
+    margin-top: 2rem;
+}
+
+/* Tabla de pagos */
+.contable-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Encabezado de la tabla */
+.contable-table thead {
+    background-color: #f1f1f1;
+}
+
+.contable-table thead th {
+    font-size: 14px;
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 2px solid #f3f8fd;
+}
+
+/* Celdas del cuerpo de la tabla */
+.contable-table tbody td {
+    font-size: 13px;
+    padding: 0.75rem;
+    color: #000000;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Botones personalizados */
+.btn-custom-contable {
+    background-color: #28a745;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-contable:hover {
+    background-color: #218838;
+}
+
+.btn-custom-contable-warning {
+    background-color: #ffc107;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    color: #212529;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-contable-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-custom-contable-success {
+    background-color: #007bff;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-contable-success:hover {
+    background-color: #0056b3;
+}
+
+/* Modal */
+.contable-modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contable-modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.contable-modal-title {
+    color: #007bff;
+}
+
+.contable-modal-footer .btn {
+    margin-left: 0.5rem;
+}
+
+
+/*template de lista de servicios */
+/* Contenedor principal */
+.spa-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(to right, #fff5e7, #f5f3f4); /* Gradiente de color suave */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Encabezado de la página */
+.spa-title {
+    text-align: center;
+    font-weight: 700;
+    color: #070707;
+    margin-bottom: 2rem;
+}
+
+/* Cartas de servicios */
+.spa-card {
+    background: linear-gradient(to right,  #f5f3f4, #fff5e7);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.spa-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Checkbox de servicios */
+.spa-checkbox {
+    margin-right: 0.5rem;
+}
+
+/* Botón de solicitar servicios */
+.spa-btn {
+    background-color: #d8e2dc;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 1rem auto;
+}
+
+.spa-btn:hover {
+    background-color: #e0aaff;
+}
+
+/* Adaptaciones para móviles */
+@media (max-width: 768px) {
+    .spa-container {
+        padding: 1rem;
+    }
+
+    .spa-title {
+        font-size: 1.5rem;
+    }
+
+    .spa-card {
+        margin-bottom: 1rem;
+    }
+
+    .spa-btn {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+}
+/* Ajuste del tamaño de los checkboxes */
+.spa-checkbox {
+    transform: scale(2.5); /* Aumentar tamaño del checkbox */
+    margin-right: 0.5rem;
+}
+
+
+
+/* Estilo global para el cuerpo */
+.global-body-bg {
+    background: linear-gradient(to right, #e8e8e4, #f5f3f4); /* Gradiente de color suave */
+    font-family: 'Quicksand', sans-serif;
+    color: #333;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+/*Template crear solicitud*/
+/* Contenedor principal */
+.solicitud-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(to right, #fff5e7, #f5f3f4); /* Gradiente de color suave */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Encabezado de la página */
+.solicitud-container h2 {
+    text-align: center;
+    font-weight: 700;
+    color: #070707;
+    margin-bottom: 2rem;
+}
+
+/* Formularios */
+.form-group label {
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group select {
+    border-radius: 5px;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Botón de enviar solicitud */
+.btn-solicitud {
+    background-color: #d8e2dc;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 1rem auto;
+}
+
+.btn-solicitud:hover {
+    background-color: #e0aaff;
+}
+
+/* Adaptaciones para móviles */
+@media (max-width: 768px) {
+    .solicitud-container {
+        padding: 1rem;
+    }
+
+    .solicitud-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn-solicitud {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+}
+

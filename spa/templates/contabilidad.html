@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Contabilidad</h2>
+    <ul>
+        <li>Total del Día: {{ total_dia|floatformat:2 }} $</li>
+        <li>Total de la Semana: {{ total_semana|floatformat:2 }} $</li>
+        <li>Total del Mes: {{ total_mes|floatformat:2 }} $</li>
+    </ul>
+    <a href="{% url 'solicitudes_admin' %}" class="btn btn-primary">Volver a Solicitudes</a>
+</div>
+{% endblock %}
